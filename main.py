@@ -128,7 +128,7 @@ def add_item(
     )
 
 
-@app.post("/items/search", response_model=SearchResponse | ErrorResponse)
+@app.post("/search", response_model=SearchResponse | ErrorResponse)
 def search_items_post(
     body: SearchRequest,
     member: Member | None = Depends(get_current_member),
