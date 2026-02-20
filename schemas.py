@@ -28,6 +28,10 @@ class AddItemRequest(BaseModel):
     raw_input: str
 
 
+class SearchRequest(BaseModel):
+    query: str
+
+
 class ItemResponse(BaseModel):
     id: int
     name: str
@@ -54,6 +58,7 @@ class SearchResultItem(BaseModel):
 
 class SearchResponse(BaseModel):
     query: str
+    message: str = ""
     results: list[SearchResultItem]
 
 

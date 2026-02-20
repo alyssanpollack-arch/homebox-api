@@ -17,6 +17,7 @@ from schemas import (
     ItemListResponse,
     ItemResponse,
     JoinHouseholdRequest,
+    SearchRequest,
     SearchResponse,
     SearchResultItem,
 )
@@ -124,6 +125,37 @@ def add_item(
             added_by=member.name,
             created_at=item.created_at,
         ),
+    )
+
+
+@app.post("/items/search", response_model=SearchResponse | ErrorResponse)
+def search_items_post(
+    body: SearchRequest,
+    member: Member | None = Depends(get_current_member),
+    db: Session = Depends(get_db),
+):
+    if not member:
+        return ErrorResponse(error="Invalid or missing token. Run Setup Homebox first.")
+
+    all_items = db.query(Item).filter(Item.household_id == member.household_id).all()
+    matches = fuzzy_search(all_items, body.query)
+
+    if not matches:
+        message = "I didn't find anything matching that."
+    else:
+        parts = [f"{item.name} is in {item.location}" for item, score in matches[:3]]
+        message = ". ".join(parts) + "."
+
+    return SearchResponse(
+        query=body.query,
+        message=message,
+        results=[
+            SearchResultItem(
+                id=item.id, name=item.name, location=item.location,
+                category=item.category, score=score,
+            )
+            for item, score in matches
+        ],
     )
 
 
