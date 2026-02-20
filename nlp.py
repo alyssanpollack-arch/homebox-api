@@ -12,8 +12,8 @@ LEADING_ARTICLES = re.compile(r"^(the|a|an|my|our|some)\s+", re.IGNORECASE)
 PATTERNS: list[tuple[re.Pattern, tuple[int, int]]] = [
     # "X is/are in/on/under/behind/at Y"
     (re.compile(r"^(.+?)\s+(?:is|are)\s+(?:in|on|under|behind|at|inside|next to)\s+(.+)$", re.IGNORECASE), (1, 2)),
-    # "[I/we] put/stored/left/placed/keep X in/on/under Y
-    (re.compile(r"^(?:i|we)?\s*(?:put|stored|left|placed|keep|kept)\s+(.+?)\s+(?:in|on|under|behind|at|inside|next to)\s+(.+)$", re.IGNORECASE), (1, 2)),
+    # "[I/we] [am/was] put/putting/stored/storing/left/placed/keep X in/on/under Y
+    (re.compile(r"^(?:(?:i(?:'m)?|we(?:'re)?)\s+)?(?:am\s+|was\s+|were\s+)?(?:put|putting|stored|storing|left|leaving|placed|placing|keep|keeping|kept)\s+(.+?)\s+(?:in|on|under|behind|at|inside|next to)\s+(.+)$", re.IGNORECASE), (1, 2)),
     # "X, Y" (comma fallback)
     (re.compile(r"^(.+?)\s*,\s*(.+)$"), (1, 2)),
     # "X in/on/under Y" (bare preposition)

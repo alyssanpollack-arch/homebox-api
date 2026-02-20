@@ -31,6 +31,12 @@ class TestPutStoredPattern:
     def test_no_pronoun(self):
         assert parse("put the batteries in the junk drawer") == ("batteries", "junk drawer")
 
+    def test_im_putting(self):
+        assert parse("I'm putting the superglue in the laundry room cabinet") == ("superglue", "laundry room cabinet")
+
+    def test_im_storing(self):
+        assert parse("I'm storing the blankets in the closet") == ("blankets", "closet")
+
 
 class TestCommaFallback:
     def test_simple(self):
